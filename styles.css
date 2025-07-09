@@ -1,0 +1,527 @@
+/* Custom styles for the game */
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f0f4f8; /* Light blue-gray background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to start to allow space for level selector */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 950px; /* Slightly wider to accommodate level selector */
+    background-color: #ffffff; /* White background for the whole app area */
+    border-radius: 0; /* Removed rounded corners */
+    box-shadow: none; /* Removed box-shadow */
+    padding: 1.5rem; /* Padding for the entire app content */
+    border: none; /* Removed border */
+}
+
+/* Styles for the new dropdown level selector */
+.level-select-dropdown {
+    padding: 0.7rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid #ADD8E6; /* Light blue border */
+    border-radius: 0.75rem;
+    background-color: #ADD8E6; /* Light blue solid color */
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-bottom: 2rem; /* Space below the dropdown */
+    appearance: none; /* Remove default dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.7rem top 50%;
+    background-size: 1.5rem auto;
+    min-width: 150px; /* Ensure it's wide enough for text */
+    text-align: center;
+}
+
+.level-select-dropdown:hover {
+    background-color: #6dd5ed; /* Slightly darker on hover */
+    border-color: #6dd5ed;
+}
+
+.level-select-dropdown:focus {
+    outline: none;
+    border-color: #4682B4; /* Steel blue on focus */
+    box-shadow: 0 0 0 3px rgba(70, 130, 180, 0.5);
+}
+
+.level-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Changed to column for Level 1 layout */
+    justify-content: flex-start; /* Align content to top for Level 1 */
+    align-items: center;
+    min-height: 400px; /* Minimum height for level content area */
+    text-align: center;
+    font-size: 1.5rem;
+    color: #555;
+}
+
+/* Existing game-container styles (now nested within .level-content for Level 2) */
+.game-container {
+    position: relative; /* Needed for absolute positioning of SVG */
+    background-color: #ffffff; /* This will be overridden by .app-container's background */
+    border-radius: 1.5rem;
+    box-shadow: none; /* Remove inner shadow as app-container has one */
+    padding: 0; /* Remove inner padding as app-container handles it */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: none; /* Let it expand within level-content */
+    border: none; /* Remove inner border */
+}
+
+.columns-wrapper {
+    display: flex;
+    flex-direction: row; /* Always side-by-side columns */
+    gap: 1.5rem; /* Gap between letter and picture sections */
+    width: 100%; /* Take full width of game-container */
+    justify-content: center;
+    align-items: flex-start; /* Align sections to the top */
+}
+
+.letters-section, .pictures-section {
+    display: flex;
+    flex-direction: column; /* Items within these sections are in a column */
+    gap: 0.8rem; /* Gap between individual letter/picture boxes */
+    flex: 1; /* Allow both sections to grow and shrink equally */
+    min-width: 120px; /* Minimum width for each column to hold items */
+    box-sizing: border-box;
+}
+
+.letter-box, .picture-item {
+    display: flex;
+    flex-direction: column; /* Allow emoji and text to stack */
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem;
+    border-radius: 0.75rem;
+    font-weight: bold;
+    color: #333;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Card-like shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease, background-color 0.3s ease;
+    cursor: pointer; /* Indicate clickable for selection */
+    border: 2px solid transparent; /* Default transparent border */
+    width: 100px; /* Fixed width for square items */
+    height: 100px; /* Fixed height for square items */
+    box-sizing: border-box; /* Include padding in width/height */
+    text-align: center; /* Center content like emoji */
+    user-select: none; /* Prevent text selection */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+.letter-box {
+    font-size: 1.8rem; /* Adjusted font size for letters */
+    color: #007bff; /* Blue color for letters */
+    background-color: #d0efff; /* Lighter blue background for letter boxes */
+    border: 2px solid #8acaff;
+}
+
+.picture-item {
+    background-color: #ffffff;
+    border: 2px solid #cceeff; /* Light blue border for pictures */
+}
+
+.letter-box.selected, .picture-item.selected {
+    border-color: #007bff; /* Highlight selected item with blue border */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Glow effect */
+}
+
+.letter-box.matched, .picture-item.matched {
+    border-color: #28a745; /* Green for matched */
+    background-color: #d4edda;
+    cursor: default; /* No longer clickable/draggable */
+    pointer-events: none; /* Disable interaction */
+}
+
+.letter-box.incorrect, .picture-item.incorrect {
+    border-color: #dc3545; /* Red for incorrect */
+    background-color: #f8d7da;
+}
+
+.picture-item .emoji {
+    font-size: 2.5rem; /* Adjusted emoji size */
+    line-height: 1; /* Prevent extra space around emoji */
+}
+
+.picture-item .english-word {
+    font-size: 0.8rem; /* Adjust as needed to fit */
+    margin-top: 0.2rem; /* Small space below emoji */
+    color: #555;
+    display: none; /* Hidden by default */
+    white-space: nowrap; /* Prevent word from wrapping */
+    overflow: hidden; /* Hide overflow if it's too long */
+    text-overflow: ellipsis; /* Add ellipsis if hidden */
+}
+/* When a picture is selected or matched, show the word */
+.picture-item.selected .english-word,
+.picture-item.matched .english-word {
+    display: block; /* Show when selected or matched */
+}
+
+.feedback-message {
+    text-align: center;
+    font-size: 1rem; /* Reduced font size for feedback message */
+    font-weight: bold;
+    margin-top: 1rem;
+    min-height: 30px; /* Reserve space */
+    color: #333;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem; /* Space from content above */
+    width: 100%; /* Ensure buttons span full width */
+}
+
+.game-button {
+    padding: 0.8rem 1.8rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Only background transition for flat look */
+    box-shadow: none; /* Flat buttons, no shadow */
+    background-color: #6495ED; /* Cornflower blue solid color */
+    color: white;
+    width: 100%; /* Make button take full width of its parent */
+    max-width: 250px; /* Keep a max-width for the button itself if it gets too wide */
+}
+
+.game-button:hover {
+    transform: none; /* No transform on hover for flat look */
+    box-shadow: none; /* No shadow on hover */
+    background-color: #4169E1; /* Slightly darker on hover */
+}
+
+.game-button:active {
+    transform: none; /* No transform on active for flat look */
+    box-shadow: none; /* No shadow on active */
+}
+
+#reset-btn {
+    background-color: #FFD700; /* Gold solid color */
+    color: #333;
+}
+
+#reset-btn:hover {
+    background-color: #DAA520; /* Darker gold on hover */
+}
+
+/* SVG for drawing lines */
+.match-lines-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Important: allows clicks to pass through */
+    z-index: 1; /* Ensure it's above background but below interactive elements */
+    overflow: visible; /* Allow lines to extend slightly outside if needed */
+}
+.match-lines-svg line {
+    stroke: #28a745; /* Green line */
+    stroke-width: 2; /* Thinner line */
+    stroke-linecap: round;
+    stroke-dasharray: 8 8; /* Dotted line: 8px dash, 8px gap */
+    transition: stroke-dashoffset 0.5s ease-out; /* For drawing animation */
+    /* Initial state for drawing animation */
+    stroke-dashoffset: 0; /* Start with no offset */
+}
+
+/* --- Level 1 Specific Styles --- */
+.level1-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.letter-row-display {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap; /* Allow letters to wrap if too many for one line */
+}
+
+.level1-letter-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px; /* Slightly smaller for more letters per row */
+    height: 80px;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    font-size: 2rem; /* Larger font for single letters */
+    font-weight: bold;
+    color: #007bff;
+    background-color: #d0efff;
+    border: 2px solid #8acaff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+.level1-letter-box:hover {
+    background-color: #a7d9f7;
+    transform: translateY(-2px);
+}
+
+.level1-letter-box.selected {
+    border-color: #007bff;
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Span full width to push arrows to edges */
+    max-width: 300px; /* Limit width of nav buttons container */
+    margin-top: 1rem;
+}
+
+.nav-button {
+    padding: 0.7rem 1.2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    background-color: #ADD8E6; /* Light blue solid color */
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #6dd5ed;
+}
+
+.nav-button:disabled {
+    background-color: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+.picture-display {
+    display: flex;
+    flex-wrap: wrap; /* Allow pictures to wrap */
+    justify-content: center;
+    gap: 1rem; /* Gap between pictures */
+    margin-top: 1.5rem;
+    min-height: 150px; /* Ensure space even if no pictures */
+}
+
+.level1-picture-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px; /* Fixed size for pictures */
+    height: 100px;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    background-color: #ffffff;
+    border: 2px solid #cceeff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    user-select: none;
+    overflow: hidden; /* Hide overflowing text/emoji */
+}
+
+.level1-picture-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.level1-picture-item .emoji {
+    font-size: 2.8rem; /* Larger emoji for Level 1 */
+    line-height: 1;
+}
+
+.level1-picture-item .english-word {
+    font-size: 0.7rem; /* Smaller font for English word to fit */
+    margin-top: 0.2rem;
+    color: #555;
+    display: block; /* Always visible in Level 1 after click */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Level 3 Specific Styles --- */
+.level3-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 600px; /* Constrain width for better layout */
+    padding: 1.5rem;
+    background-color: #e6f2ff; /* Lightest blue background */
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.level3-challenge-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.level3-picture-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 2px solid #ADD8E6;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 180px; /* Larger target for picture */
+    height: 180px;
+}
+
+.level3-picture-display:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.level3-picture-display .emoji {
+    font-size: 5rem; /* Very large emoji */
+    line-height: 1;
+}
+
+.level3-picture-display .marathi-word { /* Changed from .english-word */
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #555;
+    margin-top: 0.5rem;
+}
+
+.level3-options-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow options to wrap on smaller screens */
+    width: 100%;
+}
+
+.level3-option-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px; /* Fixed width for options */
+    height: 120px; /* Fixed height for options */
+    background-color: #ffffff;
+    border: 2px solid #cceeff;
+    border-radius: 1rem;
+    font-size: 3rem; /* Large font for options */
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    user-select: none;
+}
+
+.level3-option-box:hover {
+    background-color: #e0f2ff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.level3-option-box.selected {
+    border-color: #007bff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.level3-option-box.correct {
+    background-color: #d4edda; /* Light green */
+    border-color: #28a745; /* Green */
+    color: #155724; /* Darker green text */
+}
+
+.level3-option-box.incorrect {
+    background-color: #f8d7da; /* Light red */
+    border-color: #dc3545; /* Red */
+    color: #721c24; /* Darker red text */
+    animation: shake 0.3s; /* Add shake animation */
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.level3-feedback-message {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    min-height: 30px; /* Reserve space */
+    color: #333;
+}
+
+.level3-next-button {
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    background-color: #6495ED; /* Cornflower blue */
+    color: white;
+    transition: background-color 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.level3-next-button:hover {
+    background-color: #4169E1; /* Darker blue */
+}
+
+.level3-next-button:disabled {
+    background-color: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+/* Styles for placeholder levels */
+.placeholder-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px; /* Adjust as needed */
+    font-size: 2rem;
+    font-weight: bold;
+    color: #888;
+}
